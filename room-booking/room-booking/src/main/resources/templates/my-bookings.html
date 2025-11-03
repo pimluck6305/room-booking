@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>การจองของฉัน</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f4; }
+        .navbar { background-color: #fff; padding: 15px 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .navbar a { text-decoration: none; color: #333; font-weight: bold; margin-right: 20px; }
+        .container { max-width: 900px; margin: 30px auto; padding: 20px; background-color: #fff; border-radius: 8px; }
+        h1 { color: #333; }
+        .booking-list { list-style: none; padding: 0; }
+        .booking-card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .booking-card .details h3 { margin: 0 0 10px 0; }
+        .booking-card .details p { margin: 5px 0; color: #666; }
+        .btn-cancel { padding: 8px 12px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px; }
+        .empty-state { color: #888; text-align: center; padding: 30px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div>
+            <a th:href="@{/}">หน้าหลัก (รวมห้อง)</a>
+            <a th:href="@{/my-bookings}" style="color: #007bff;">การจองของฉัน</a>
+        </div>
+        <div>
+            <a th:href="@{/profile}">โปรไฟล์</a>
+            <a th:href="@{/logout}">ออกจากระบบ</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>การจองทั้งหมดของคุณ</h1>
+
+        <ul class="booking-list" th:if="${!userBookings.isEmpty()}">
+            
+            <li th:each="booking : ${userBookings}" class="booking-card">
+                <div class="details">
+                    <h3 th:text="${booking.room.name}">ชื่อห้องประชุม</h3>
+                    
+                    <p>
+                        <strong>วันที่:</strong> <span th:text="${#temporals.format(booking.startTime, 'dd MMMM yyyy')}"></span>
+                    </p>
+                    <p>
+                        <strong>เวลา:</strong> 
+                        <span th:text="${#temporals.format(booking.startTime, 'HH:mm')}"></span> - 
+                        <span th:text="${#temporals.format(booking.endTime, 'HH:mm')}"></span> น.
+                    </p>
+                </div>
+                
+                <div>
+                    <a th:href="@{/booking/cancel/{id}(id=${booking.id})}" class="btn-cancel">ยกเลิกการจอง</a>
+                </div>
+            </li>
+
+        </ul>
+
+        <div th:if="${userBookings.isEmpty()}" class="empty-state">
+            <p>คุณยังไม่มีรายการจอง</p>
+        </div>
+    </div>
+
+</body>
+</html>

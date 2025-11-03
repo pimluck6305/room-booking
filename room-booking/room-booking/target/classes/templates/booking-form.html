@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>กรอกข้อมูลการจอง</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        h1 { color: #333; }
+        .form-container { max-width: 500px; background-color: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .btn-submit { padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; }
+        .btn-back { display: inline-block; margin-top: 15px; color: #007bff; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>จองห้อง: <span th:text="${room.name}">ชื่อห้อง</span></h1>
+        <p th:text="'ความจุ: ' + ${room.capacity} + ' คน'">ความจุ: 10 คน</p>
+
+        <form th:action="@{/book/save}" method="post" th:object="${booking}">
+            
+            <input type="hidden" th:field="*{room}"/>
+            <input type="hidden" th:field="*{user}"/>
+
+            <div class="form-group">
+                <label for="startTime">เวลาเริ่ม:</label>
+                <input type="datetime-local" id="startTime" th:field="*{startTime}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="endTime">เวลาสิ้นสุด:</label>
+                <input type="datetime-local" id="endTime" th:field="*{endTime}" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">ยืนยันการจอง</button>
+        </form>
+
+        <a href="/" class="btn-back"> &laquo; กลับไปหน้าแรก</a>
+    </div>
+
+</body>
+</html>

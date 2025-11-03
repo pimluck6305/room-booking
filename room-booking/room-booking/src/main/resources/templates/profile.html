@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>จัดการโปรไฟล์</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f4; }
+        .navbar { background-color: #fff; padding: 15px 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .navbar a { text-decoration: none; color: #333; font-weight: bold; margin-right: 20px; }
+        .container { max-width: 600px; margin: 30px auto; padding: 20px; background-color: #fff; border-radius: 8px; }
+        h1 { color: #333; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .form-group input[readonly] { background-color: #eee; color: #777; }
+        .btn-submit { padding: 10px 15px; background-color: #28a745; color: white; border-radius: 5px; border: none; cursor: pointer; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div>
+            <a th:href="@{/}">หน้าหลัก</a>
+            <a th:href="@{/my-bookings}">การจองของฉัน</a>
+        </div>
+        <div>
+            <a th:href="@{/profile}" style="color: #007bff;">โปรไฟล์</a>
+            <a th:href="@{/logout}">ออกจากระบบ</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h1>จัดการโปรไฟล์</h1>
+        
+        <form th:action="@{/profile/save}" method="post" th:object="${userProfile}">
+            
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{user}" />
+
+            <h3>ข้อมูลบัญชี (One-to-One)</h3>
+            <div class="form-group">
+                <label>Username (แก้ไขไม่ได้):</label>
+                <input type="text" th:value="*{user.username}" readonly>
+            </div>
+
+            <h3>ข้อมูลส่วนตัว (One-to-One)</h3>
+            <div class="form-group">
+                <label for="firstName">ชื่อจริง:</label>
+                <input type="text" id="firstName" th:field="*{firstName}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="lastName">นามสกุล:</label>
+                <input type="text" id="lastName" th:field="*{lastName}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="telephone">เบอร์โทรศัพท์:</label>
+                <input type="text" id="telephone" th:field="*{telephone}">
+            </div>
+            
+            <button type="submit" class="btn-submit">บันทึกการเปลี่ยนแปลง</button>
+        </form>
+    </div>
+
+</body>
+</html>
